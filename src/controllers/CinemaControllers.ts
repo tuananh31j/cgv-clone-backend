@@ -6,7 +6,7 @@ class CinemaControllers {
             const data = await Cinema.find();
             return res.status(200).json(data);
         } catch (error) {
-            console.log(error);
+            res.status(500).json({ message: 'loi server', error });
         }
     }
 
@@ -16,7 +16,7 @@ class CinemaControllers {
             const data = await Cinema.findById(id);
             res.status(200).json(data);
         } catch (error) {
-            console.log(error);
+            res.status(500).json({ message: 'loi server', error });
         }
     }
 
@@ -28,7 +28,7 @@ class CinemaControllers {
 
             return res.status(200).json('Xóa thành công!');
         } catch (error) {
-            console.log(error);
+            res.status(500).json({ message: 'loi server', error });
         }
     }
 
@@ -42,7 +42,7 @@ class CinemaControllers {
 
             return res.status(200).json({ message: 'Cập nhật thành công!', data: result });
         } catch (error) {
-            console.log(error);
+            res.status(500).json({ message: 'loi server', error });
         }
     }
 
@@ -53,7 +53,7 @@ class CinemaControllers {
 
             return res.status(200).json({ message: 'Thêm thành công!', data: result });
         } catch (error) {
-            console.log(error);
+            res.status(500).json({ message: 'loi server', error });
         }
     }
 }

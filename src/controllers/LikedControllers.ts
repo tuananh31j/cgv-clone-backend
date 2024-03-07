@@ -6,7 +6,7 @@ class LikedControllers {
             const data = await Liked.find();
             return res.status(200).json(data);
         } catch (error) {
-            console.log(error);
+            res.status(500).json({ message: 'loi server', error });
         }
     }
 
@@ -18,7 +18,7 @@ class LikedControllers {
             if (!data) return res.status(400).json('ID không tồn tại!');
             return res.status(200).json(data);
         } catch (error) {
-            console.log(error);
+            res.status(500).json({ message: 'loi server', error });
         }
     }
 
@@ -30,7 +30,7 @@ class LikedControllers {
             if (!data) return res.status(400).json('ID không tồn tại!');
             return res.status(200).json(data);
         } catch (error) {
-            console.log(error);
+            res.status(500).json({ message: 'loi server', error });
         }
     }
 
@@ -40,7 +40,7 @@ class LikedControllers {
             const data = await Liked.findById(id);
             res.status(200).json(data);
         } catch (error) {
-            console.log(error);
+            res.status(500).json({ message: 'loi server', error });
         }
     }
 
@@ -52,7 +52,7 @@ class LikedControllers {
 
             return res.status(200).json('Xóa thành công!');
         } catch (error) {
-            console.log(error);
+            res.status(500).json({ message: 'loi server', error });
         }
     }
 
@@ -66,7 +66,7 @@ class LikedControllers {
 
             return res.status(200).json({ message: 'Cập nhật thành công!', data: result });
         } catch (error) {
-            console.log(error);
+            res.status(500).json({ message: 'loi server', error });
         }
     }
     async add(req: Request, res: Response) {
@@ -76,7 +76,7 @@ class LikedControllers {
 
             return res.status(200).json({ message: 'Thêm thành công!', data: result });
         } catch (error) {
-            console.log(error);
+            res.status(500).json({ message: 'loi server', error });
         }
     }
 }

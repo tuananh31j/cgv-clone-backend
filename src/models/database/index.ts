@@ -8,6 +8,7 @@ import ScreeningFormat from './ScreeningFormat';
 import Order from './Order';
 import Showtime from './Showtime';
 import Cinema from './Cinema';
+import Refresh_token from './Refresh_token';
 
 const connect = async () => {
     try {
@@ -18,5 +19,5 @@ const connect = async () => {
     }
 };
 
-export { Cinema, Customer, Liked, Movie, Rated, Region, ScreeningFormat, Order, Showtime };
+export { Cinema, Customer, Liked, Movie, Rated, Region, ScreeningFormat, Order, Showtime, Refresh_token };
 export default { connect };

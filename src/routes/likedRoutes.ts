@@ -3,9 +3,9 @@ import express from 'express';
 import likedControllers from '~/controllers/LikedControllers';
 const router = express.Router();
 
-router.patch('/', likedControllers.update);
+router.patch('/:id', likedControllers.update);
 router.delete('/:id', likedControllers.remove);
-router.get('/', likedControllers.get);
+router.get('/:id', likedControllers.get);
 router.post('/', likedControllers.add);
 router.get('/', likedControllers.getAll);
 

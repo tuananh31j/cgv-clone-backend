@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.patch('/:id', movieControllers.update);
 router.delete('/:id', movieControllers.remove);
-router.get('/', movieControllers.get);
+router.get('/:id', movieControllers.get);
 router.post('/', movieControllers.add);
 router.get('/', movieControllers.getAll);
 

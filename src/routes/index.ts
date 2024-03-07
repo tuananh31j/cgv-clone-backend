@@ -8,6 +8,7 @@ import routerLiked from './likedRoutes';
 import routerCustomer from './customerRoutes';
 import routerOrder from './orderRoutes';
 import routerCinema from './cinemaRoutes';
+import routerAuth from './authRoutes';
 
 const router = express.Router();
 
@@ -19,5 +20,6 @@ router.use('/likes', routerLiked);
 router.use('/customers', routerCustomer);
 router.use('/orders', routerOrder);
 router.use('/cinemas', routerCinema);
+router.use('/auth', routerAuth);
 
 export default router;
