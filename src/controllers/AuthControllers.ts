@@ -65,12 +65,9 @@ class AuthControllers {
     async requestRefreshToken(req: Request, res: Response) {
         try {
             const refreshToken = req.cookies['refreshToken'];
-            console.log(refreshToken);
-
             if (!refreshToken) return res.status(403).json('Ban chua dang nhap!');
             const isYourToken = refreshTokens.includes(refreshToken);
             if (!isYourToken) return res.status(403).json('refreshToken khong dung!');
-
             jwt.verify(
                 refreshToken,
                 SECRET_REFRESH_KEY,
@@ -87,7 +84,7 @@ class AuthControllers {
                             path: '/',
                             sameSite: 'strict',
                         });
-                        res.status(200).json({ accessToken: newAccessToken });
+                        res.status(200).json({ accessToken: newAccessToken, message: 'Token mới!' });
                     }
                 }
             );

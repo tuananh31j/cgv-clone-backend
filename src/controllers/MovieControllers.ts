@@ -8,7 +8,9 @@ class MovieControllers {
         try {
             const page: number = Number(req.query._page) || 1;
             const limit: number = Number(req.query._limit) || 0;
-            const data = await Movie.find().skip((page - 1) * limit);
+            const data = await Movie.find()
+                .populate('rated_id')
+                .skip((page - 1) * limit);
             return res.status(200).json(data);
         } catch (error) {
             res.status(500).json('lỗi server!');

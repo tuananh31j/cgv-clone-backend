@@ -9,7 +9,7 @@ export interface IUserPayload {
     epx?: number;
 }
 const generalAccessToken = (user: IUserPayload | string) => {
-    const token = jwt.sign(user, SECRET_ACCESS_KEY, { expiresIn: '10s' });
+    const token = jwt.sign(user, SECRET_ACCESS_KEY, { expiresIn: '20s' });
     return token;
 };
 

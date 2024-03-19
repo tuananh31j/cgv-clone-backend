@@ -6,12 +6,11 @@ const Showtime = new mongoose.Schema(
         date: { type: String },
         start_time: { type: String },
         end_time: { type: String },
-        region: { type: ObjectId, ref: 'Region' },
         re_showing: { type: Boolean },
         price: { type: Number },
-        cinema: { type: ObjectId, ref: 'Cinema' },
-        screening_format: { type: ObjectId, ref: 'Screening_format' },
+        theater: { type: ObjectId, ref: 'Theater' },
         movie: { type: ObjectId, ref: 'Movie' },
+        cinema: { type: ObjectId, ref: 'Cinema' },
     },
     { timestamps: true }
 );

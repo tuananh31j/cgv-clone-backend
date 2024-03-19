@@ -7,8 +7,9 @@ import Region from './Region';
 import ScreeningFormat from './ScreeningFormat';
 import Order from './Order';
 import Showtime from './Showtime';
+import Theater from './Theater';
 import Cinema from './Cinema';
-import Refresh_token from './Refresh_token';
+import Concession from './Concession';
 
 const connect = async () => {
     try {
@@ -19,5 +20,5 @@ const connect = async () => {
     }
 };
 
-export { Cinema, Customer, Liked, Movie, Rated, Region, ScreeningFormat, Order, Showtime, Refresh_token };
+export { Cinema, Theater, Customer, Liked, Movie, Rated, Region, ScreeningFormat, Order, Showtime, Concession };
 export default { connect };
