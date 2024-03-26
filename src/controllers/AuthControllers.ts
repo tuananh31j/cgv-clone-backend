@@ -23,14 +23,9 @@ class AuthControllers {
                 const accessToken = generalAccessToken({ id: user._id, role: user.role });
                 const refreshToken = generalRefreshToken({ id: user._id, role: user.role });
                 refreshTokens.push(refreshToken);
-                const { name, role } = user.toObject() as ICustomer;
-                res.cookie('refreshToken', refreshToken, {
-                    httpOnly: true,
-                    secure: false,
-                    path: '/',
-                    sameSite: 'strict',
-                });
-                res.status(200).json({ name, role, accessToken });
+                const { name, role, _id } = user;
+                res.cookie('refreshToken', refreshToken, {});
+                res.status(200).json({ name, role, accessToken, id: _id });
             }
         } catch (error) {
             res.status(500).json({ message: 'loi server', error });
@@ -53,9 +48,6 @@ class AuthControllers {
 
             const newUser = await Customer.create({ ...req.body, password: hashed });
             const { password, ...others } = newUser.toObject() as ICustomer;
-            console.log(newUser);
-            console.log(await Customer.create({ ...req.body, password: hashed }));
-
             return res.status(200).json({ message: 'Đăng ký thành công!', data: others });
         } catch (error) {
             res.status(500).json({ message: 'loi server', error });
@@ -65,14 +57,16 @@ class AuthControllers {
     async requestRefreshToken(req: Request, res: Response) {
         try {
             const refreshToken = req.cookies['refreshToken'];
-            if (!refreshToken) return res.status(403).json('Ban chua dang nhap!');
+            if (!refreshToken) return res.status(400).json('Ban chua dang nhap!');
             const isYourToken = refreshTokens.includes(refreshToken);
             if (!isYourToken) return res.status(403).json('refreshToken khong dung!');
             jwt.verify(
                 refreshToken,
                 SECRET_REFRESH_KEY,
                 (err: null | jwt.VerifyErrors, user: undefined | jwt.JwtPayload | string) => {
-                    if (err) return res.status(401).json('Token da het han!');
+                    if (err) {
+                        return res.status(401).json('Token da het han!');
+                    }
                     if (user) {
                         const { id, role } = user as JwtPayload;
                         const newRefreshToken = generalRefreshToken({ id, role });
@@ -107,7 +101,9 @@ class AuthControllers {
             const token = req.headers.authorization?.split(' ')[1];
             if (token) {
                 jwt.verify(token, SECRET_ACCESS_KEY, async (err, user) => {
-                    if (err) return res.status(401).json({ message: 'token khong hop le!' });
+                    if (err) {
+                        return res.status(401).json({ message: 'token khong hop le!' });
+                    }
                     const copyUser = JSON.parse(JSON.stringify(user));
                     const currentUser = await Customer.findById(copyUser?.id);
                     res.status(200).json(currentUser);

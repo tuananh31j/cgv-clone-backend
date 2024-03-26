@@ -1,27 +1,76 @@
+import { addDays, startOfDay } from 'date-fns';
 import { Request, Response } from 'express';
 import { Showtime, Theater } from '~/models/database';
 class ShowtimeControllers {
     async getAll(req: Request, res: Response) {
         try {
-            // const query: { movie?: string; format?: string; date?: string; region?: string } = {
-            //     movie: req.query.movie as string,
-            //     format: req.query.format as string,
-            //     date: req.query.date as string,
-            //     region: req.query.region as string,
-            // };
-            // if (!req.query.movie) {
-            //     delete query.movie;
-            // }
-            // if (!req.query.format) {
-            //     delete query.format;
-            // }
-            // if (!req.query.date) {
-            //     delete query.date;
-            // }
-            // if (!req.query.region) {
-            //     delete query.region;
-            // }
             const data = await Showtime.find()
+                .populate({
+                    path: 'theater',
+                    populate: [{ path: 'format' }, { path: 'region' }],
+                })
+                .populate({ path: 'movie', populate: 'rated_id' })
+                .populate('cinema');
+
+            return res.status(200).json(data);
+        } catch (error) {
+            res.status(500).json({ message: 'loi server', error });
+        }
+    }
+
+    async getMoviesNowShowing(req: Request, res: Response) {
+        try {
+            const today = startOfDay(new Date());
+            const thirtyDaysLater = addDays(today, 30);
+
+            const data = await Showtime.aggregate([
+                { $match: { date: { $gte: today, $lte: thirtyDaysLater } } },
+                { $group: { _id: '$movie', date: { $min: '$date' } } },
+                {
+                    $lookup: {
+                        from: 'movies',
+                        localField: '_id',
+                        foreignField: '_id',
+                        as: 'movieDetails',
+                    },
+                },
+                { $unwind: '$movieDetails' },
+            ]);
+            return res.status(200).json(data);
+        } catch (error) {
+            res.status(500).json({ message: 'loi server', error });
+        }
+    }
+    async getMoviesComingSoon(req: Request, res: Response) {
+        try {
+            const today = startOfDay(new Date());
+            const thirtyDaysLater = addDays(today, 30);
+            const data = await Showtime.aggregate([
+                { $match: { date: { $gt: thirtyDaysLater } } },
+                { $group: { _id: '$movie', date: { $min: '$date' } } },
+                {
+                    $lookup: {
+                        from: 'movies',
+                        localField: '_id',
+                        foreignField: '_id',
+                        as: 'movieDetails',
+                    },
+                },
+                { $unwind: '$movieDetails' },
+                { $project: { movieDetails: 1, date: 1 } },
+            ]);
+            return res.status(200).json(data);
+        } catch (error) {
+            res.status(500).json({ message: 'loi server', error });
+        }
+    }
+
+    async getListShowtimeByMovieId(req: Request, res: Response) {
+        try {
+            const id = req.params.id;
+            const today = startOfDay(new Date());
+            const thirtyDaysLater = addDays(today, 30);
+            const data = await Showtime.find({ movie: id, date: { $gte: today, $lte: thirtyDaysLater } })
                 .populate({
                     path: 'theater',
                     populate: [{ path: 'format' }, { path: 'region' }],

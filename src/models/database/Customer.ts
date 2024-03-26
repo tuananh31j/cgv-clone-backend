@@ -7,7 +7,7 @@ const Customer = new mongoose.Schema(
         phone: { type: String },
         password: { type: String, required: true },
         email: { type: String },
-        sex: { type: Boolean, default: 1 },
+        sex: { type: String, default: 'none' },
         date_of_birth: { type: String },
         status: { type: Boolean, default: true },
         role: { type: String, default: 'user' },

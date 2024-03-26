@@ -12,6 +12,7 @@ import routerTheater from './theaterRoutes';
 import routerAuth from './authRoutes';
 import routerShowtime from './showtimeRoutes';
 import routerConcession from './concessionRoutes';
+import routerBanner from './bannerRoutes';
 
 const router = express.Router();
 
@@ -26,6 +27,7 @@ router.use('/orders', routerOrder);
 router.use('/cinemas', routerCinema);
 router.use('/theaters', routerTheater);
 router.use('/concessions', routerConcession);
+router.use('/banners', routerBanner);
 router.use('/auth', routerAuth);
 
 export default router;

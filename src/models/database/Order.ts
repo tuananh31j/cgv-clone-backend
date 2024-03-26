@@ -8,6 +8,7 @@ const Order = new mongoose.Schema(
         start_time: { type: String },
         end_time: { type: String },
         date: { type: String },
+        status: { type: String, default: 'active' },
         payment_type: { type: Boolean },
         region_name: { type: String },
         cinema_name: { type: String },

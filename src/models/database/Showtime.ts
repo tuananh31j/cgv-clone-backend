@@ -1,11 +1,10 @@
-import { boolean } from 'joi';
 import mongoose from 'mongoose';
 const { ObjectId } = mongoose.Schema;
 const Showtime = new mongoose.Schema(
     {
-        date: { type: String },
-        start_time: { type: String },
-        end_time: { type: String },
+        date: { type: Date },
+        start_time: { type: Date },
+        end_time: { type: Date },
         re_showing: { type: Boolean },
         price: { type: Number },
         theater: { type: ObjectId, ref: 'Theater' },

@@ -1,5 +1,5 @@
 import express from 'express';
-import concessionController from '~/controllers/Concession';
+import concessionController from '~/controllers/ConcessionControllers';
 const router = express.Router();
 
 router.patch('/:id', concessionController.update);

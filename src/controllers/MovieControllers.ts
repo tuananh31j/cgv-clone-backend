@@ -14,7 +14,6 @@ class MovieControllers {
             return res.status(200).json(data);
         } catch (error) {
             res.status(500).json('lỗi server!');
-            console.log(error);
         }
     }
 
@@ -25,7 +24,6 @@ class MovieControllers {
             return res.status(200).json(data);
         } catch (error) {
             res.status(500).json('lỗi server!');
-            console.log(error);
         }
     }
 

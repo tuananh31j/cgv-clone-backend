@@ -1,11 +1,12 @@
 import express from 'express';
 import cors from 'cors';
-import { config } from 'dotenv';
 import database from './models/database';
 import routerApi from '~/routes';
 import cookieParser from 'cookie-parser';
+import { config } from 'dotenv';
+config();
 const app = express();
-const PORT = 5555;
+const PORT = process.env.PORT || 5555;
 app.use(
     cors({
         origin: 'http://localhost:3100', // Nguồn gốc được phép
