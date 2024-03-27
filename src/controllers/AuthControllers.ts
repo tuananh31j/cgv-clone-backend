@@ -23,7 +23,7 @@ class AuthControllers {
                 const { name, role, _id } = user;
                 res.cookie('refreshToken', refreshToken, {
                     httpOnly: true,
-                    secure: false,
+                    secure: true,
                     path: '/',
                     sameSite: 'lax',
                 });
@@ -78,7 +78,7 @@ class AuthControllers {
                         refreshTokens.push(newRefreshToken);
                         res.cookie('refreshToken', newRefreshToken, {
                             httpOnly: true,
-                            secure: false,
+                            secure: true,
                             path: '/',
                             sameSite: 'lax',
                         });

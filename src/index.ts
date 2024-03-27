@@ -8,7 +8,7 @@ config();
 const app = express();
 const PORT = process.env.PORT || 5555;
 // app.enable('trust proxy');
-app.use(cors({ origin: ['http://localhost:3100', 'my-cyclic-domain'], credentials: true }));
+app.use(cors({ origin: ['https://cgv-clone-frontend.vercel.app', 'my-cyclic-domain'], credentials: true }));
 app.set('trust proxy', 1);
 app.use(cookieParser());
 database.connect();
