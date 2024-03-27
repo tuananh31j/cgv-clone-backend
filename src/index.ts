@@ -5,10 +5,17 @@ import routerApi from '~/routes';
 import cookieParser from 'cookie-parser';
 import { config } from 'dotenv';
 config();
+const corsOptions = {
+    origin: process.env.CLIENT_URL!, // Cho phép truy cập từ domain này
+    optionsSuccessStatus: 200, // Một số trình duyệt cũ không hỗ trợ mã 204
+    credentials: true, // Cho phép gửi cookie qua CORS
+    allowedHeaders: 'Content-Type,Authorization', // Header được phép
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Phương thức được phép
+};
 const app = express();
 const PORT = process.env.PORT || 5555;
 app.use(cookieParser());
-app.use(cors({ origin: process.env.CLIENT_URL!, credentials: true }));
+app.use(cors(corsOptions));
 database.connect();
 app.use(
     express.urlencoded({
