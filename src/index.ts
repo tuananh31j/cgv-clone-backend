@@ -7,11 +7,12 @@ import { config } from 'dotenv';
 config();
 const app = express();
 const PORT = process.env.PORT || 5555;
-app.enable('trust proxy');
+// app.enable('trust proxy');
 app.use(
     cors({
-        origin: 'http://localhost:3100', // Nguồn gốc được phép
-        credentials: true, // Cho phép gửi cookies/certificates
+        origin: true, // Nguồn gốc được phép
+        credentials: true,
+        exposedHeaders: ['set-cookie'], // Cho phép gửi cookies/certificates
     })
 );
 app.use(cookieParser());
