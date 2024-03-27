@@ -55,6 +55,8 @@ class AuthControllers {
     async requestRefreshToken(req: Request, res: Response) {
         try {
             const refreshToken = req.cookies['refreshToken'];
+            console.log(refreshToken);
+
             if (!refreshToken) return res.status(400).json('Ban chua dang nhap!');
             const isYourToken = refreshTokens.includes(refreshToken);
             if (!isYourToken) return res.status(403).json('refreshToken khong dung!');
@@ -72,7 +74,7 @@ class AuthControllers {
                         refreshTokens.push(newRefreshToken);
                         res.cookie('refreshToken', newRefreshToken, {
                             httpOnly: true,
-                            secure: true,
+                            secure: false,
                             path: '/',
                             sameSite: 'strict',
                         });
