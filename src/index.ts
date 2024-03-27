@@ -8,13 +8,8 @@ config();
 const app = express();
 const PORT = process.env.PORT || 5555;
 // app.enable('trust proxy');
-app.use(
-    cors({
-        origin: true, // Nguồn gốc được phép
-        credentials: true,
-        exposedHeaders: ['set-cookie'], // Cho phép gửi cookies/certificates
-    })
-);
+app.use(cors({ origin: ['http://localhost:3100', 'my-cyclic-domain'], credentials: true }));
+app.set('trust proxy', 1);
 app.use(cookieParser());
 database.connect();
 app.use(
