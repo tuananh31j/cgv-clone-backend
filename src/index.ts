@@ -6,14 +6,15 @@ import cookieParser from 'cookie-parser';
 import { config } from 'dotenv';
 config();
 const corsOptions = {
-    origin: 'https://cgv-clone-frontend.vercel.app/login',
+    origin: 'https://cgv-clone-frontend.vercel.app',
     credentials: true,
 };
 const app = express();
 const PORT = process.env.PORT || 5555;
 app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('https://cgv-clone-frontend.vercel.app');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Access-Control-Allow-Credentials', 'true');
     next();
 });
 app.use(cookieParser());

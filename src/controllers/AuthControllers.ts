@@ -24,7 +24,7 @@ class AuthControllers {
                 refreshTokens.push(refreshToken);
                 const { name, role, _id } = user;
                 res.cookie('refreshToken', refreshToken, {
-                    httpOnly: false,
+                    httpOnly: true,
                     secure: false,
                     path: '',
                     sameSite: 'lax',
@@ -80,10 +80,10 @@ class AuthControllers {
                         const newAccessToken = generalAccessToken({ id, role });
                         refreshTokens.push(newRefreshToken);
                         res.cookie('refreshToken', newRefreshToken, {
-                            httpOnly: false,
+                            httpOnly: true,
                             secure: false,
                             path: '/',
-                            sameSite: 'none',
+                            sameSite: 'lax',
                             expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
                         });
                         res.status(200).json({ accessToken: newAccessToken, message: 'new Token!' });
