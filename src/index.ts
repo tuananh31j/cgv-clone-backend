@@ -7,7 +7,7 @@ import { config } from 'dotenv';
 config();
 const app = express();
 const PORT = process.env.PORT || 5555;
-// app.enable('trust proxy');
+app.enable('trust proxy', 1);
 app.use(
     cors({
         origin: 'http://localhost:3100', // Nguồn gốc được phép

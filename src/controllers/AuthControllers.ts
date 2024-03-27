@@ -22,7 +22,7 @@ class AuthControllers {
                 refreshTokens.push(refreshToken);
                 const { name, role, _id } = user;
                 res.cookie('refreshToken', refreshToken, {
-                    httpOnly: true,
+                    httpOnly: false,
                     secure: false,
                     path: '/',
                     sameSite: 'lax',
@@ -77,7 +77,7 @@ class AuthControllers {
                         const newAccessToken = generalAccessToken({ id, role });
                         refreshTokens.push(newRefreshToken);
                         res.cookie('refreshToken', newRefreshToken, {
-                            httpOnly: true,
+                            httpOnly: false,
                             secure: false,
                             path: '/',
                             sameSite: 'lax',
