@@ -25,7 +25,7 @@ class AuthControllers {
                     httpOnly: true,
                     secure: true,
                     path: '/',
-                    sameSite: 'strict',
+                    sameSite: 'lax',
                 });
                 res.status(200).json({ name, role, accessToken, id: _id });
             }
@@ -80,7 +80,7 @@ class AuthControllers {
                             httpOnly: true,
                             secure: true,
                             path: '/',
-                            sameSite: 'strict',
+                            sameSite: 'lax',
                         });
                         res.status(200).json({ accessToken: newAccessToken, message: 'new Token!' });
                     }
