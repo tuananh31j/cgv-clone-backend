@@ -1,7 +1,5 @@
 import { Movie } from '~/models/database';
-import mongoose from 'mongoose';
 import { Request, Response } from 'express';
-import { assert, date } from 'joi';
 
 class MovieControllers {
     async getAll(req: Request, res: Response) {

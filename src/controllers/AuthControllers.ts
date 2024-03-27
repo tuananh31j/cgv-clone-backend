@@ -11,11 +11,10 @@ class AuthControllers {
         try {
             const { email } = req.body;
             const user = await Customer.findOne({ email });
-            if (!user) return res.status(400).json({ message: { email: 'Email khong ton tai!' } });
+            if (!user) return res.status(400).json({ message: { email: 'Your input is not valid' } });
 
             const isPassword = await bcrypt.compare(req.body.password, user.password);
-
-            if (!isPassword) return res.status(400).json({ message: { password: 'Mat kkhau sai' } });
+            if (!isPassword) return res.status(400).json({ message: 'Your input is not valid' });
 
             if (user && isPassword) {
                 const accessToken = generalAccessToken({ id: user._id, role: user.role });
@@ -26,12 +25,12 @@ class AuthControllers {
                     httpOnly: true,
                     secure: false,
                     path: '/',
-                    sameSite: 'strict',
+                    sameSite: 'lax',
                 });
                 res.status(200).json({ name, role, accessToken, id: _id });
             }
         } catch (error) {
-            res.status(500).json({ message: 'loi server', error });
+            res.status(500).json({ message: 'server', error });
         }
     }
 
@@ -62,15 +61,15 @@ class AuthControllers {
             const refreshToken = req.cookies['refreshToken'];
             console.log(refreshToken);
 
-            if (!refreshToken) return res.status(400).json('Ban chua dang nhap!');
+            if (!refreshToken) return res.status(400).json('You are not authenticated!!');
             const isYourToken = refreshTokens.includes(refreshToken);
-            if (!isYourToken) return res.status(403).json('refreshToken khong dung!');
+            if (!isYourToken) return res.status(403).json('refreshToken is not valid!');
             jwt.verify(
                 refreshToken,
                 SECRET_REFRESH_KEY,
                 (err: null | jwt.VerifyErrors, user: undefined | jwt.JwtPayload | string) => {
                     if (err) {
-                        return res.status(401).json('Token da het han!');
+                        return res.status(401).json('Token is not valid!');
                     }
                     if (user) {
                         const { id, role } = user as JwtPayload;
@@ -81,14 +80,14 @@ class AuthControllers {
                             httpOnly: true,
                             secure: false,
                             path: '/',
-                            sameSite: 'strict',
+                            sameSite: 'lax',
                         });
-                        res.status(200).json({ accessToken: newAccessToken, message: 'Token mới!' });
+                        res.status(200).json({ accessToken: newAccessToken, message: 'new Token!' });
                     }
                 }
             );
         } catch (error) {
-            res.status(500).json({ message: 'loi server', error });
+            res.status(500).json({ message: 'server', error });
         }
     }
 
