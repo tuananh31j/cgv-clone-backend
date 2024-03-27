@@ -5,6 +5,8 @@ import { Request, Response } from 'express';
 import { SECRET_ACCESS_KEY, SECRET_REFRESH_KEY } from '~/constants/secretKey';
 import { generalAccessToken, generalRefreshToken } from '~/utilities/jwt';
 import { ICustomer } from '~/interface/Customer';
+import { config } from 'dotenv';
+config();
 const refreshTokens: string[] = [];
 class AuthControllers {
     async login(req: Request, res: Response) {
@@ -22,6 +24,7 @@ class AuthControllers {
                 refreshTokens.push(refreshToken);
                 const { name, role, _id } = user;
                 res.cookie('refreshToken', refreshToken, {
+                    domain: process.env.CLIENT_URL!,
                     httpOnly: true,
                     secure: true,
                     path: '/',
@@ -78,6 +81,7 @@ class AuthControllers {
                         const newAccessToken = generalAccessToken({ id, role });
                         refreshTokens.push(newRefreshToken);
                         res.cookie('refreshToken', newRefreshToken, {
+                            domain: process.env.CLIENT_URL!,
                             httpOnly: true,
                             secure: true,
                             path: '/',
