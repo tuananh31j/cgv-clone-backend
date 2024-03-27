@@ -24,10 +24,9 @@ class AuthControllers {
                 refreshTokens.push(refreshToken);
                 const { name, role, _id } = user;
                 res.cookie('refreshToken', refreshToken, {
-                    domain: 'cgv-clone-frontend.vercel.app',
-                    httpOnly: true,
+                    httpOnly: false,
                     secure: false,
-                    path: '/login',
+                    path: '',
                     sameSite: 'lax',
                     expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
                 });
@@ -81,8 +80,7 @@ class AuthControllers {
                         const newAccessToken = generalAccessToken({ id, role });
                         refreshTokens.push(newRefreshToken);
                         res.cookie('refreshToken', newRefreshToken, {
-                            domain: 'cgv-clone-frontend.vercel.app',
-                            httpOnly: true,
+                            httpOnly: false,
                             secure: false,
                             path: '/',
                             sameSite: 'none',
