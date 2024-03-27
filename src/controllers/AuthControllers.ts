@@ -27,8 +27,8 @@ class AuthControllers {
                     domain: 'cgv-clone-frontend.vercel.app',
                     httpOnly: true,
                     secure: false,
-                    path: '/',
-                    sameSite: 'none',
+                    path: '/login',
+                    sameSite: 'lax',
                     expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
                 });
                 res.status(200).json({ name, role, accessToken, id: _id });
