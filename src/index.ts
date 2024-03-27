@@ -6,8 +6,7 @@ import cookieParser from 'cookie-parser';
 import { config } from 'dotenv';
 config();
 const corsOptions = {
-    origin: process.env.CLIENT_URL!, // Cho phép truy cập từ domain này
-    optionsSuccessStatus: 200, // Một số trình duyệt cũ không hỗ trợ mã 204
+    origin: 'https://cgv-clone-frontend.vercel.app', // Cho phép truy cập từ domain này
     credentials: true, // Cho phép gửi cookie qua CORS
     allowedHeaders: 'Content-Type,Authorization', // Header được phép
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Phương thức được phép

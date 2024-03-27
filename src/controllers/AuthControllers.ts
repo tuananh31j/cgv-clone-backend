@@ -26,7 +26,7 @@ class AuthControllers {
                 res.cookie('refreshToken', refreshToken, {
                     domain: 'cgv-clone-frontend.vercel.app',
                     httpOnly: true,
-                    secure: true,
+                    secure: false,
                     path: '/',
                     sameSite: 'lax',
                     expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
@@ -83,7 +83,7 @@ class AuthControllers {
                         res.cookie('refreshToken', newRefreshToken, {
                             domain: 'cgv-clone-frontend.vercel.app',
                             httpOnly: true,
-                            secure: true,
+                            secure: false,
                             path: '/',
                             sameSite: 'lax',
                             expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
