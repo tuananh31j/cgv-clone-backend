@@ -6,10 +6,8 @@ import cookieParser from 'cookie-parser';
 import { config } from 'dotenv';
 config();
 const corsOptions = {
-    origin: 'https://cgv-clone-frontend.vercel.app', // Cho phép truy cập từ domain này
-    credentials: true, // Cho phép gửi cookie qua CORS
-    allowedHeaders: 'Content-Type,Authorization', // Header được phép
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Phương thức được phép
+    origin: 'https://cgv-clone-frontend.vercel.app/login',
+    credentials: true,
 };
 const app = express();
 const PORT = process.env.PORT || 5555;

@@ -28,7 +28,7 @@ class AuthControllers {
                     httpOnly: true,
                     secure: false,
                     path: '/',
-                    sameSite: 'lax',
+                    sameSite: 'none',
                     expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
                 });
                 res.status(200).json({ name, role, accessToken, id: _id });
@@ -85,7 +85,7 @@ class AuthControllers {
                             httpOnly: true,
                             secure: false,
                             path: '/',
-                            sameSite: 'lax',
+                            sameSite: 'none',
                             expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
                         });
                         res.status(200).json({ accessToken: newAccessToken, message: 'new Token!' });
