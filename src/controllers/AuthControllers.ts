@@ -22,7 +22,12 @@ class AuthControllers {
                 const refreshToken = generalRefreshToken({ id: user._id, role: user.role });
                 refreshTokens.push(refreshToken);
                 const { name, role, _id } = user;
-                res.cookie('refreshToken', refreshToken);
+                res.cookie('refreshToken', refreshToken, {
+                    httpOnly: true,
+                    secure: false,
+                    path: '/',
+                    sameSite: 'strict',
+                });
                 res.status(200).json({ name, role, accessToken, id: _id });
             }
         } catch (error) {
