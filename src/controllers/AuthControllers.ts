@@ -1,11 +1,9 @@
-import { ObjectId } from 'mongoose';
 import { Customer } from '~/models/database';
 import bcrypt from 'bcrypt';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import { SECRET_ACCESS_KEY, SECRET_REFRESH_KEY } from '~/constants/secretKey';
-import { IUserPayload, generalAccessToken, generalRefreshToken } from '~/utilities/jwt';
-import { Types } from 'mongoose';
+import { generalAccessToken, generalRefreshToken } from '~/utilities/jwt';
 import { ICustomer } from '~/interface/Customer';
 const refreshTokens: string[] = [];
 class AuthControllers {
@@ -24,7 +22,7 @@ class AuthControllers {
                 const refreshToken = generalRefreshToken({ id: user._id, role: user.role });
                 refreshTokens.push(refreshToken);
                 const { name, role, _id } = user;
-                res.cookie('refreshToken', refreshToken, {});
+                res.cookie('refreshToken', refreshToken);
                 res.status(200).json({ name, role, accessToken, id: _id });
             }
         } catch (error) {
@@ -74,7 +72,7 @@ class AuthControllers {
                         refreshTokens.push(newRefreshToken);
                         res.cookie('refreshToken', newRefreshToken, {
                             httpOnly: true,
-                            secure: false,
+                            secure: true,
                             path: '/',
                             sameSite: 'strict',
                         });
