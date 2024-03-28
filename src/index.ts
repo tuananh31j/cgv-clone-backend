@@ -5,16 +5,15 @@ import routerApi from '~/routes';
 import cookieParser from 'cookie-parser';
 import { config } from 'dotenv';
 config();
+const corsOptions = {
+    origin: `${process.env.CLIENT_URL!}`,
+    credentials: true,
+};
 const app = express();
 const PORT = process.env.PORT || 5555;
-// app.enable('trust proxy');
-app.use(
-    cors({
-        origin: 'http://localhost:3100', // Nguồn gốc được phép
-        credentials: true, // Cho phép gửi cookies/certificates
-    })
-);
 app.use(cookieParser());
+app.use(cors(corsOptions));
+
 database.connect();
 app.use(
     express.urlencoded({
@@ -23,4 +22,4 @@ app.use(
 );
 app.use(express.json());
 app.use('/api', routerApi);
-app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Server is running`));

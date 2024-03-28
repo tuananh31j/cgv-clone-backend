@@ -5,6 +5,8 @@ import { Request, Response } from 'express';
 import { SECRET_ACCESS_KEY, SECRET_REFRESH_KEY } from '~/constants/secretKey';
 import { generalAccessToken, generalRefreshToken } from '~/utilities/jwt';
 import { ICustomer } from '~/interface/Customer';
+import { config } from 'dotenv';
+config();
 const refreshTokens: string[] = [];
 class AuthControllers {
     async login(req: Request, res: Response) {
@@ -21,13 +23,16 @@ class AuthControllers {
                 const refreshToken = generalRefreshToken({ id: user._id, role: user.role });
                 refreshTokens.push(refreshToken);
                 const { name, role, _id } = user;
-                res.cookie('refreshToken', refreshToken, {
-                    httpOnly: true,
-                    secure: false,
-                    path: '/',
-                    sameSite: 'lax',
-                });
-                res.status(200).json({ name, role, accessToken, id: _id });
+                if (process.env.ENVIRONMENT === 'product') {
+                    res.cookie('refreshToken', refreshToken, {
+                        httpOnly: true,
+                        secure: true,
+                        path: '/',
+                        sameSite: 'strict',
+                        expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+                    });
+                }
+                res.status(200).json({ name, role, accessToken, refreshToken, id: _id });
             }
         } catch (error) {
             res.status(500).json({ message: 'server', error });
@@ -58,7 +63,13 @@ class AuthControllers {
 
     async requestRefreshToken(req: Request, res: Response) {
         try {
-            const refreshToken = req.cookies['refreshToken'];
+            const refreshToken = req.headers.cookie?.split('=')[1];
+            console.log(req.headers['Authorization']);
+            console.log(req.headers);
+
+            // if (process.env.ENVIRONMENT === 'product') {
+            //     refreshToken = req.cookies['RefreshToken'];
+            // }
             console.log(refreshToken);
 
             if (!refreshToken) return res.status(400).json('You are not authenticated!!');
@@ -73,15 +84,18 @@ class AuthControllers {
                     }
                     if (user) {
                         const { id, role } = user as JwtPayload;
-                        const newRefreshToken = generalRefreshToken({ id, role });
                         const newAccessToken = generalAccessToken({ id, role });
-                        refreshTokens.push(newRefreshToken);
-                        res.cookie('refreshToken', newRefreshToken, {
-                            httpOnly: true,
-                            secure: false,
-                            path: '/',
-                            sameSite: 'lax',
-                        });
+                        if (process.env.ENVIRONMENT === 'product') {
+                            const newRefreshToken = generalRefreshToken({ id, role });
+                            refreshTokens.push(newRefreshToken);
+                            res.cookie('refreshToken', newRefreshToken, {
+                                httpOnly: true,
+                                secure: true,
+                                path: '/',
+                                sameSite: 'strict',
+                                expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+                            });
+                        }
                         res.status(200).json({ accessToken: newAccessToken, message: 'new Token!' });
                     }
                 }
