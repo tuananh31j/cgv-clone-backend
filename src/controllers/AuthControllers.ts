@@ -30,7 +30,7 @@ class AuthControllers {
                     sameSite: 'lax',
                     expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
                 });
-                res.status(200).json({ name, role, accessToken, id: _id });
+                res.status(200).json({ name, role, accessToken, refreshToken, id: _id });
             }
         } catch (error) {
             res.status(500).json({ message: 'server', error });
@@ -76,16 +76,16 @@ class AuthControllers {
                     }
                     if (user) {
                         const { id, role } = user as JwtPayload;
-                        const newRefreshToken = generalRefreshToken({ id, role });
+                        // const newRefreshToken = generalRefreshToken({ id, role });
                         const newAccessToken = generalAccessToken({ id, role });
-                        refreshTokens.push(newRefreshToken);
-                        res.cookie('refreshToken', newRefreshToken, {
-                            httpOnly: true,
-                            secure: true,
-                            path: '/',
-                            sameSite: 'lax',
-                            expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
-                        });
+                        // refreshTokens.push(newRefreshToken);
+                        // res.cookie('refreshToken', newRefreshToken, {
+                        //     httpOnly: true,
+                        //     secure: true,
+                        //     path: '/',
+                        //     sameSite: 'lax',
+                        //     expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+                        // });
                         res.status(200).json({ accessToken: newAccessToken, message: 'new Token!' });
                     }
                 }

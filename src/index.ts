@@ -11,12 +11,6 @@ const corsOptions = {
 };
 const app = express();
 const PORT = process.env.PORT || 5555;
-app.use(function (req, res, next) {
-    res.header(`${process.env.CLIENT_URL!}`);
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    next();
-});
 app.use(cookieParser());
 app.use(cors(corsOptions));
 
