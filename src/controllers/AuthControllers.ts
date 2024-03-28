@@ -63,7 +63,7 @@ class AuthControllers {
 
     async requestRefreshToken(req: Request, res: Response) {
         try {
-            const refreshToken = req.headers.cookie?.split('=')[1];
+            const refreshToken = req.headers.cookie?.split('=')[1] || req.body.refreshToken;
             console.log(req.headers['Authorization']);
             console.log(req.headers);
 
