@@ -3,6 +3,7 @@ import showTimeControllers from '~/controllers/ShowtimeControllers';
 const router = express.Router();
 
 router.get('/movies-now-showing', showTimeControllers.getMoviesNowShowing);
+router.get('/movies-now-showing-by-cinema', showTimeControllers.getMoviesNowShowingByCinema);
 router.get('/movies-coming-soon', showTimeControllers.getMoviesComingSoon);
 router.get('/movies/:id', showTimeControllers.getListShowtimeByMovieId);
 router.route('/:id').patch(showTimeControllers.update).delete(showTimeControllers.remove).get(showTimeControllers.get);

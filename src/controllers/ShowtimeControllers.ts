@@ -24,6 +24,29 @@ class ShowtimeControllers {
             const thirtyDaysLater = addDays(today, 30);
             const data = await Showtime.aggregate([
                 { $match: { date: { $gte: today, $lte: thirtyDaysLater } } },
+                { $group: { _id: { movie: '$movie' }, date: { $min: '$date' } } },
+                { $addFields: { movieId: '$_id.movie' } },
+                {
+                    $lookup: {
+                        from: 'movies',
+                        localField: 'movieId', // Sử dụng trường mới tạo để lookup
+                        foreignField: '_id',
+                        as: 'movieDetails',
+                    },
+                },
+                { $unwind: '$movieDetails' },
+            ]);
+            return res.status(200).json(data);
+        } catch (error) {
+            res.status(500).json({ message: 'loi server', error });
+        }
+    }
+    async getMoviesNowShowingByCinema(req: Request, res: Response) {
+        try {
+            const today = startOfDay(new Date());
+            const thirtyDaysLater = addDays(today, 30);
+            const data = await Showtime.aggregate([
+                { $match: { date: { $gte: today, $lte: thirtyDaysLater } } },
                 { $group: { _id: { movie: '$movie', cinema: '$cinema' }, date: { $min: '$date' } } },
                 { $addFields: { movieId: '$_id.movie' } },
                 {
