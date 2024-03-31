@@ -64,14 +64,9 @@ class AuthControllers {
     async requestRefreshToken(req: Request, res: Response) {
         try {
             const refreshToken = req.headers.cookie?.split('=')[1] || req.body.refreshToken;
-            console.log(req.headers['Authorization']);
-            console.log(req.headers);
-
             // if (process.env.ENVIRONMENT === 'product') {
             //     refreshToken = req.cookies['RefreshToken'];
             // }
-            console.log(refreshToken);
-
             if (!refreshToken) return res.status(400).json('You are not authenticated!!');
             const isYourToken = refreshTokens.includes(refreshToken);
             if (!isYourToken) return res.status(403).json('refreshToken is not valid!');

@@ -22,14 +22,14 @@ class ShowtimeControllers {
         try {
             const today = startOfDay(new Date());
             const thirtyDaysLater = addDays(today, 30);
-
             const data = await Showtime.aggregate([
                 { $match: { date: { $gte: today, $lte: thirtyDaysLater } } },
-                { $group: { _id: '$movie', date: { $min: '$date' } } },
+                { $group: { _id: { movie: '$movie', cinema: '$cinema' }, date: { $min: '$date' } } },
+                { $addFields: { movieId: '$_id.movie' } },
                 {
                     $lookup: {
                         from: 'movies',
-                        localField: '_id',
+                        localField: 'movieId', // Sử dụng trường mới tạo để lookup
                         foreignField: '_id',
                         as: 'movieDetails',
                     },

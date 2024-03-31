@@ -9,6 +9,15 @@ class CinemaControllers {
             res.status(500).json({ message: 'loi server', error });
         }
     }
+    async getCinemasByRegionID(req: Request, res: Response) {
+        try {
+            const id = req.params.id;
+            const data = await Cinema.find({ region_ref: id });
+            return res.status(200).json(data);
+        } catch (error) {
+            res.status(500).json({ message: 'loi server', error });
+        }
+    }
 
     async get(req: Request, res: Response) {
         try {
